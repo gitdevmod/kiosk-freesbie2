@@ -16,7 +16,6 @@ if [ -z "${LOGFILE:-}" ]; then
 fi
 
 WORKDIR=$(mktemp -d -t freesbie)
-PFSPFSPKGFILE=${PFSPFSPKGFILE:-${LOCALDIR}/packages};
 
 # Check if there are packages installed on the system
 check_pkgs() {
@@ -50,11 +49,11 @@ create_lists() {
 
     CATEGORIES=$(basename -s '.src' *.src)
 
-    # If PFSPKGFILE already exists, find the listed packages and write
+    # If PKGFILE already exists, find the listed packages and write
     # them down in the proper category selection files
-    if [ -f ${PFSPKGFILE} ]; then
+    if [ -f ${PKGFILE} ]; then
 
-	echo "Using ${PFSPKGFILE} as source..."
+	echo "Using ${PKGFILE} as source..."
 
 	while read row; do
 	    if [ -z ${row} ]; then continue; fi
@@ -78,13 +77,13 @@ create_lists() {
 	    else
 		echo
 		echo "Warning! Package \"${pkg}\" is listed"
-		echo "in ${PFSPKGFILE},"
+		echo "in ${PKGFILE},"
 		echo "but is not present in your system. "
 		echo "Press CTRL-C in ten seconds if you want"
 		echo "to stop now or I'll continue anyway"
 		sleep 10
 	    fi
-	done < ${PFSPKGFILE}
+	done < ${PKGFILE}
     fi
 }
 
@@ -194,11 +193,11 @@ collect_save() {
     for i in *.sel; do
       if [ -f ${i} ]; then
 	  # There's at least one .sel file
-	  sort *.sel > ${PFSPKGFILE}
-	  echo "List of packages saved on ${PFSPKGFILE}"
+	  sort *.sel > ${PKGFILE}
+	  echo "List of packages saved on ${PKGFILE}"
       else
-	  echo "No packages selected, removing ${PFSPKGFILE}"
-	  rm ${PFSPKGFILE}
+	  echo "No packages selected, removing ${PKGFILE}"
+	  rm ${PKGFILE}
       fi
       # No iterations required
       break;

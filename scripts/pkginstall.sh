@@ -17,9 +17,7 @@ fi
 
 #$BASE_DIR/tools/builder_scripts/packages
 
-PFSPKGFILE=/tmp/pfspackages
-
-if [ ! -f ${PFSPKGFILE} ]; then
+if [ ! -f ${PKGFILE} ]; then
     return
 fi
 
@@ -65,13 +63,13 @@ find_origins() {
 	else
 	    echo
 	    echo "Warning! Package \"${pkg}\" is listed"
-	    echo "in ${PFSPKGFILE},"
+	    echo "in ${PKGFILE},"
 	    echo "but is not present in your system. "
 	    echo "Press CTRL-C in ten seconds if you want"
 	    echo "to stop now or I'll continue anyway"
 	    sleep 10
 	fi
-    done < ${PFSPKGFILE}
+    done < ${PKGFILE}
     if [ -f tmp_origins ]; then
 	sort -u tmp_origins > origins
 	tot=$(wc -l origins | awk '{print $1}')
@@ -186,7 +184,7 @@ purge_wd() {
 
 trap "purge_wd && exit 1" INT
 
-echo ">>> Installing packages listed in ${PFSPKGFILE}"
+echo ">>> Installing packages listed in ${PKGFILE}"
 find_origins
 
 if [ "$(wc -l ${WORKDIR}/origins | awk '{print $1}')" = "0" ]; then
