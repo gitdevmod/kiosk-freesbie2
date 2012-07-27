@@ -15,7 +15,7 @@ if [ -z "${LOGFILE:-}" ]; then
     exit 1
 fi
 
-echo -n ">>> Removing build directories"
+echo -n ">>> Removing build directories "
 
 if [ -d "${BASEDIR}" ]; then
 	BASENAME=`basename ${BASEDIR}`
