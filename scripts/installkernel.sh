@@ -26,11 +26,11 @@ if [ -z "${SRC_CONF:-}" ]; then
 fi
 
 if [ -n "${KERNELCONF:-}" ]; then
-    export KERNCONFDIR=$(dirname ${KERNELCONF})
-    export KERNCONF=$(basename ${KERNELCONF})
+    KERNCONFDIR=$(dirname ${KERNELCONF})
+    KERNCONF=$(basename ${KERNELCONF})
 elif [ -z "${KERNCONF:-}" ]; then
-    export KERNCONFDIR=${LOCALDIR}/conf/${ARCH}
-    export KERNCONF="FREESBIE"
+    KERNCONFDIR=${LOCALDIR}/conf/${ARCH}
+    KERNCONF="FREESBIE"
 fi
 
 mkdir -p ${BASEDIR}/boot
@@ -45,13 +45,13 @@ else
 	DTRACE=" WITH_CTF=1"
 fi
 
-makeargs="${MAKEOPT:-} ${MAKEJ_KERNEL:-} SRCCONF=${SRC_CONF} TARGET_ARCH=${ARCH} DESTDIR=${KERNEL_DESTDIR}"
+makeargs="${MAKEOPT:-} ${MAKEJ_KERNEL:-} SRCCONF=${SRC_CONF} TARGET_ARCH=${ARCH} KERNCONFDIR=${KERNCONFDIR} KERNCONF=${KERNCONF} DESTDIR=${BASEDIR}"
 
 echo ">>> FreeSBIe2 is running the command: env $MAKE_ENV script -aq $LOGFILE make ${makeargs:-} installkernel ${DTRACE}"  > /tmp/freesbie_installkernel_cmd.txt
 
 (env $MAKE_ENV script -aq $LOGFILE make ${makeargs:-} installkernel || print_error;) | egrep '^>>>'
 
-gzip -f9 $KERNEL_DESTDIR/boot/kernel/kernel
+gzip -f9 $BASEDIR/boot/kernel/kernel
 
 cd $LOCALDIR
 

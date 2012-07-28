@@ -40,11 +40,11 @@ else
 fi
 
 if [ -n "${KERNELCONF:-}" ]; then
-    export KERNCONFDIR=$(dirname ${KERNELCONF})
-    export KERNCONF=$(basename ${KERNELCONF})
+    KERNCONFDIR=$(dirname ${KERNELCONF})
+    KERNCONF=$(basename ${KERNELCONF})
 elif [ -z "${KERNCONF:-}" ]; then
-    export KERNCONFDIR=${LOCALDIR}/conf/${ARCH}
-    export KERNCONF="FREESBIE"
+    KERNCONFDIR=${LOCALDIR}/conf/${ARCH}
+    KERNCONF="FREESBIE"
 fi
 
 if [ -z "${WITH_DTRACE:-}" ]; then
@@ -63,7 +63,7 @@ fi
 
 unset EXTRA
 
-makeargs="${MAKEOPT:-} SRCCONF=${SRC_CONF} ${MAKE_CONF} TARGET=${ARCH} TARGET_ARCH=${ARCH} ${DTRACE}"
+makeargs="${MAKEOPT:-} SRCCONF=${SRC_CONF} ${MAKE_CONF} TARGET=${ARCH} TARGET_ARCH=${ARCH} ${DTRACE} KERNCONFDIR=${KERNCONFDIR} KERNCONF=${KERNCONF} ${MAKEJ_KERNEL:-}"
 
 if [ "$ARCH" = "MIPS" ]; then
 	echo ">>> FreeSBIe2 is running the command: env $MAKE_ENV script -aq $LOGFILE make ${makeargs:-} kernel-toolchain" > /tmp/freesbie_buildworld_cmd.txt
@@ -86,7 +86,7 @@ else
 	COUNTER=9
 fi
 while [ "$COUNTER" -lt 10 ]; do
-	(env $MAKE_ENV script -aq $LOGFILE make $makeargs buildkernel ${MAKEJ_KERNEL:-} || print_error;) | egrep '^>>>'
+	(env $MAKE_ENV script -aq $LOGFILE make $makeargs buildkernel || print_error;) | egrep '^>>>'
 	if [ "$?" -gt 0 ]; then
 		if [ "$COUNTER" -gt 9 ]; then
 			exit 1
