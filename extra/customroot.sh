@@ -19,16 +19,16 @@ CUSTOMROOT=${CUSTOMROOT:-extra/customroot}
 
 cd ${CUSTOMROOT}
 
-if [ "$FREEBSD_VERSION" = "8" ]; then
-	tar cf - * | ( cd /$BASEDIR; tar xfp -)
-	set +e
-	find $BASEDIR -name README -exec rm {} \;
-	find $BASEDIR -name CVS -exec rm -rf {} \;
-	set -e
-else
+#if [ "$FREEBSD_VERSION" = "8" ]; then
+#	tar cf - * | ( cd /$BASEDIR; tar xfp -)
+#	set +e
+#	find $BASEDIR -name README -exec rm {} \;
+#	find $BASEDIR -name CVS -exec rm -rf {} \;
+#	set -e
+#else
 	find . -not -name 'README' -not -path '*CVS*' | \
     	cpio -dump -R 0:0 -v ${BASEDIR} >> ${LOGFILE} 2>&1
-fi
+#fi
 
 # Regenerate the password db if ${CUSTOMROOT}/etc/master.passwd exists
 if [ -f etc/master.passwd ]; then 

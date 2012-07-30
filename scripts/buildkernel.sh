@@ -53,10 +53,9 @@ else
 	DTRACE=" WITH_CTF=1"
 fi
 
-SRCCONFBASENAME=`basename ${SRC_CONF}`
 echo ">>> KERNCONFDIR: ${KERNCONFDIR}"
 echo ">>> ARCH:        ${ARCH}"
-echo ">>> SRC_CONF:    ${SRCCONFBASENAME}"
+echo ">>> SRC_CONF:    ${SRC_CONF}"
 if [ "$DTRACE" != "" ]; then
 	echo ">>> DTRACE:     ${DTRACE}"
 fi

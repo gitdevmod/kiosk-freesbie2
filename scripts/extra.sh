@@ -15,14 +15,14 @@ if [ -z "${LOGFILE:-}" ]; then
     exit 1
 fi
 
-if [ -z "${EXTRAPLUGINS:-}" ]; then
+if [ -z "${EXTRA:-}" ]; then
     # No plugins selected, return with no errors
     return
 fi
 
 echo -n ">>> Running plugins:"
 
-for plugin in ${EXTRAPLUGINS}; do
+for plugin in ${EXTRA}; do
     echo -n " ${plugin}"
     if [ -f "${LOCALDIR}/extra/${ARCH}/${plugin}.sh" ]; then
 		. ${LOCALDIR}/extra/${ARCH}/${plugin}.sh
