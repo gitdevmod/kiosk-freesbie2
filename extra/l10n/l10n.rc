@@ -9,7 +9,7 @@
 # $Id: l10n.rc,v 1.1.1.1 2008/03/25 19:58:16 sullrich Exp $
 #
 # PROVIDE: l10n
-# REQUIRE: etcmfs syscons xconfig
+# REQUIRE: etcmfs syscons xconfig xconfigure
 
 . /etc/rc.subr
 
@@ -219,7 +219,7 @@ scrnmap=\"${X_SCRNMAP}\"
 
 	# update Xorg keyboard info
 	if [ -e /etc/X11/xorg.conf ]; then
-	    sed -i "" "s/\"us\"/\"${X_XORG_KEYMAP}\"/" /etc/X11/xorg.conf
+	    sed -i "" "s/\"XKB_CHANGE_ME\"/\"${X_XORG_KEYMAP}\"/" /etc/X11/xorg.conf
 	fi
 
 	echo "."

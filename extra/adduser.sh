@@ -32,21 +32,21 @@ if [ ! -d ${BASEDIR}/usr/home/${FREESBIE_ADDUSER} ]; then
     mkdir -p ${BASEDIR}/usr/home/${FREESBIE_ADDUSER}
 fi
 
-if [ ! -L ${BASEDIR}/home ]; then
-    ln -s usr/home ${BASEDIR}/home
-fi
-
+# XXX symlinks are not copied with cpio or tar "Cross-device link"
+#if [ ! -L ${BASEDIR}/home ]; then
+#    ln -s usr/home ${BASEDIR}/home
+#fi
 
 set +e
 grep -q ^${FREESBIE_ADDUSER}: ${BASEDIR}/etc/master.passwd
 
 if [ $? -ne 0 ]; then
     chroot ${BASEDIR} pw useradd ${FREESBIE_ADDUSER} \
-        -u 1000 -c "FreeSBIE User" -d "/home/${FREESBIE_ADDUSER}" \
+        -u 1000 -c "FreeSBIE User" -d "/usr/home/${FREESBIE_ADDUSER}" \
         -g 0 -G 5 -m -s /bin/tcsh -k /usr/share/skel -w none
 else
     chroot ${BASEDIR} pw usermod ${FREESBIE_ADDUSER} \
-        -u 1000 -c "FreeSBIE User" -d "/home/${FREESBIE_ADDUSER}" \
+        -u 1000 -c "FreeSBIE User" -d "/usr/home/${FREESBIE_ADDUSER}" \
         -g 0 -G 5 -m -s /bin/tcsh -k /usr/share/skel -w none
 fi
 
@@ -57,12 +57,12 @@ set -e
 chown -R 1000:0 ${BASEDIR}/usr/home/${FREESBIE_ADDUSER}
 
 if [ ! -z "${NO_UNIONFS:-}" ]; then
-    echo ">>> Adding init script for /home mfs"
+    echo ">>> Adding init script for /usr/home mfs"
 
     cp ${LOCALDIR}/extra/adduser/homemfs.rc ${BASEDIR}/etc/rc.d/homemfs
     chmod 555 ${BASEDIR}/etc/rc.d/homemfs
 
-    echo ">>> Saving mtree structure for /home/"
+    echo ">>> Saving mtree structure for /usr/home/"
 
     mtree -Pcp ${BASEDIR}/usr/home > ${TMPFILE}
     mv ${TMPFILE} ${BASEDIR}/etc/mtree/home.dist

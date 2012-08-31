@@ -125,15 +125,15 @@ clone_system() {
     # If FILE_LIST isn't defined...
     if [ -z "${FILE_LIST:-}" ]; then
 			# then copy the whole filesystem
-			#FBSD_VERSION=`/usr/bin/uname -r | /usr/bin/cut -d"." -f1`
-			#if [ "$FBSD_VERSION" -gt "7" ]; then
-			#		echo ">>> Using TAR to clone..."
-			#	mkdir -p ${CLONEDIR}				
-			#	tar cf - * | ( cd /$CLONEDIR; tar xfp -)
-			#else
+			FBSD_VERSION=`/usr/bin/uname -r | /usr/bin/cut -d"." -f1`
+			if [ "$FBSD_VERSION" -gt "7" ]; then
+				echo ">>> Using TAR to clone..."
+				mkdir -p ${CLONEDIR}				
+				tar cf - * | ( cd /$CLONEDIR; tar xfp -)
+			else
 				echo ">>> Using CPIO to clone..."
 				find . -print -depth | cpio -dump -l -v ${CLONEDIR} >> ${LOGFILE} 2>&1
-			#fi
+			fi
 	    else
 		# else pass it to cpio
 		if [ -f ${FILE_LIST} ]; then
