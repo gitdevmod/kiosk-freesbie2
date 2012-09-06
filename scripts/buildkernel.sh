@@ -31,14 +31,6 @@ if [ -z "${SRC_CONF:-}" ]; then
     fi
 fi
 
-# Set __MAKE_CONF variable if it's not already set.
-if [ -z "${MAKE_CONF:-}" ]; then
-	MAKE_CONF=""
-else
-	MAKE_CONF="__MAKE_CONF=$MAKE_CONF"
-	echo ">>> Setting MAKE_CONF to $MAKE_CONF"
-fi
-
 if [ -n "${KERNELCONF:-}" ]; then
     KERNCONFDIR=$(dirname ${KERNELCONF})
     KERNCONF=$(basename ${KERNELCONF})
@@ -58,6 +50,14 @@ echo ">>> ARCH:        ${ARCH}"
 echo ">>> SRC_CONF:    ${SRC_CONF}"
 if [ "$DTRACE" != "" ]; then
 	echo ">>> DTRACE:     ${DTRACE}"
+fi
+
+# Set __MAKE_CONF variable if it's not already set.
+if [ -z "${MAKE_CONF:-}" ]; then
+        MAKE_CONF=""
+else
+        echo ">>> MAKE_CONF:    $MAKE_CONF"
+        MAKE_CONF="__MAKE_CONF=$MAKE_CONF"
 fi
 
 unset EXTRA

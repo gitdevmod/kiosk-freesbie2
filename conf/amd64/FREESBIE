@@ -3,3 +3,9 @@ ident		FREESBIE
 
 options		GEOM_UZIP		# Read-only compressed disks
 options		INCLUDE_CONFIG_FILE
+options		P1003_1B_SEMAPHORES
+
+nooptions	INVARIANTS		# Enable calls of extra sanity checking
+nooptions	INVARIANT_SUPPORT	# Extra sanity checks of internal structures, required by INVARIANTS
+nooptions	WITNESS			# Enable checks to detect deadlocks and cycles
+nooptions	WITNESS_SKIPSPIN	# Don't run witness on spinlocks for speed

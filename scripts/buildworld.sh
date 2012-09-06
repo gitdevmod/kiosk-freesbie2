@@ -25,9 +25,9 @@ fi
 # Set SRC_CONF variable if it's not already set.
 if [ -z "${SRC_CONF:-}" ]; then
     if [ -n "${MINIMAL:-}" ]; then
-		SRC_CONF=${LOCALDIR}/conf/make.conf.minimal
+		SRC_CONF=${LOCALDIR}/conf/src.conf.minimal
     else
-		SRC_CONF=${LOCALDIR}/conf/make.conf
+		SRC_CONF=${LOCALDIR}/conf/src.conf
     fi
 fi
 
@@ -35,8 +35,8 @@ fi
 if [ -z "${MAKE_CONF:-}" ]; then
 	MAKE_CONF=""
 else
+	echo ">>> MAKE_CONF: 	$MAKE_CONF"
 	MAKE_CONF="__MAKE_CONF=$MAKE_CONF"
-	echo ">>> Setting MAKE_CONF to $MAKE_CONF"
 fi
 
 cd $SRCDIR
