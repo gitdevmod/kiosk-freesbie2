@@ -221,6 +221,11 @@ scrnmap=\"${X_SCRNMAP}\"
 	if [ -e /etc/X11/xorg.conf ]; then
 	    sed -i "" "s/\"XKB_CHANGE_ME\"/\"${X_XORG_KEYMAP}\"/" /etc/X11/xorg.conf
 	fi
+	
+	# update firefox locale
+	if [ -e /usr/local/etc/firefox/mozilla.cfg ] ; then
+		echo "lockPref(\"general.useragent.locale\",\"${X_XORG_KEYMAP}\" >> /usr/local/etc/firefox/mozilla.cfg
+	fi
 
 	echo "."
 }
