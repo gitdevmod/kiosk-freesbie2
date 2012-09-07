@@ -14,7 +14,7 @@ name="browser"
 start_cmd="browser_start"
 stop_cmd=":"
 
-browser_start { 
+browser_start () { 
 	HOMEPAGE=`kenv -q freesbie.homepage`
 	MOZ_CFG=/usr/local/etc/firefox/mozilla.cfg
 	echo "lockPref(\"browser.startup.homepage\",\"${HOMEPAGE}\");" >> ${MOZ_CFG}

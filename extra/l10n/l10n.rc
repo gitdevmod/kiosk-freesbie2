@@ -224,7 +224,7 @@ scrnmap=\"${X_SCRNMAP}\"
 	
 	# update firefox locale
 	if [ -e /usr/local/etc/firefox/mozilla.cfg ] ; then
-		echo "lockPref(\"general.useragent.locale\",\"${X_XORG_KEYMAP}\" >> /usr/local/etc/firefox/mozilla.cfg
+		echo "lockPref(\"general.useragent.locale\",\"${X_XORG_KEYMAP}\");" >> /usr/local/etc/firefox/mozilla.cfg
 	fi
 
 	echo "."
