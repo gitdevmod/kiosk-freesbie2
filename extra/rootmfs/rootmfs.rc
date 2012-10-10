@@ -35,7 +35,7 @@
 . /etc/rc.subr
 
 name="rootmfs"
-kenvrootsize=`kenv -q freesbie.rootsize`
+kenvrootsize=`kenv -q kenv.rootsize`
 rootsize=${kenvrootsize:-"20m"}
 
 load_rc_config $name

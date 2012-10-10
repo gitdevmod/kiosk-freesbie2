@@ -32,6 +32,8 @@ if [ -z "${SRC_CONF:-}" ]; then
     fi
 fi
 
+echo ">>> SRC_CONF:	$SRC_CONF"
+
 # Set __MAKE_CONF variable if it's not already set.
 if [ -z "${MAKE_CONF:-}" ]; then
         MAKE_CONF=""

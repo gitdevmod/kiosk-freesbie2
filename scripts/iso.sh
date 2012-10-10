@@ -42,7 +42,7 @@ mtree -Pcp ${CLONEDIR} | bzip2 -9 > root.dist.bz2
 mkdir -p ${CLONEDIR}/dist
 mv root.dist.bz2 ${CLONEDIR}/dist/
 
-echo "/dev/iso9660/${FREESBIE_LABEL} / cd9660 ro 0 0" > ${CLONEDIR}/etc/fstab
+echo "/dev/iso9660/${FREESBIE_LABEL} / cd9660 ro 0 0" >> ${CLONEDIR}/etc/fstab
 
 cd ${CLONEDIR}
 

@@ -17,7 +17,7 @@ name="l10n"
 start_cmd="l10n_start"
 stop_cmd=":"
 
-FL=`kenv -q freesbie.lang`
+FL=`kenv -q kiosk.lang`
 
 SUPLANG="bg cs/cz de en es fr it pl ru sk ua" 
 

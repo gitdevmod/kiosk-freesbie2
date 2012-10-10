@@ -35,9 +35,9 @@
 . /etc/rc.subr
 
 name="etcmfs"
-kenvetcsize=`kenv -q freesbie.etcsize`
+kenvetcsize=`kenv -q kiosk.etcsize`
 etcsize=${kenvetcsize:-"10m"}
-kenvlocaletcsize=`kenv -q freesbie.localetcsize`
+kenvlocaletcsize=`kenv -q kiosk.localetcsize`
 localetcsize=${kenvlocaletcsize:-"32m"}
 
 load_rc_config $name

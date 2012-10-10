@@ -19,11 +19,13 @@ fi
 # Set SRC_CONF variable if it's not already set.
 if [ -z "${SRC_CONF:-}" ]; then
     if [ -n "${MINIMAL:-}" ]; then
-		SRC_CONF=${LOCALDIR}/conf/make.conf.minimal
+		SRC_CONF=${LOCALDIR}/conf/src.conf.minimal
     else
-		SRC_CONF=${LOCALDIR}/conf/make.conf.${FREEBSD_VERSION}
+		SRC_CONF=${LOCALDIR}/conf/src.conf
     fi
 fi
+
+echo ">>> SRC_CONF:	 $SRC_CONF"
 
 # Set __MAKE_CONF variable if it's not already set.
 if [ -z "${MAKE_CONF:-}" ]; then
@@ -59,7 +61,7 @@ echo ">>> FreeSBIe2 is running the command: env $MAKE_ENV script -aq $LOGFILE ma
 
 (env $MAKE_ENV script -aq $LOGFILE make ${makeargs:-} installkernel || print_error;) | egrep '^>>>'
 
-gzip -f9 $BASEDIR/boot/kernel/kernel
+#gzip -f9 $BASEDIR/boot/kernel/kernel
 
 cd $LOCALDIR
 

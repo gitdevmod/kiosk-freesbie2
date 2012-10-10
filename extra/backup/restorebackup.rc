@@ -20,7 +20,7 @@ restorescript="/usr/local/sbin/restorebackup"
 
 do_restore()
 {
-	backup_dev=`kenv -q freesbie.backup`
+	backup_dev=`kenv -q kiosk.backup`
 	if [ "${backup_dev}" != "NO" -o "${backup_dev}" != "no" ]; then
 		if [ -z ${backup_dev} ]; then
 			${restorescript}
