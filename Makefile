@@ -119,3 +119,21 @@ clean:
 
 cleandir: clean
 	@sh ${.CURDIR}/scripts/launch.sh ${.CURDIR} cleandir
+
+update:
+	@cd /usr/ports ; \
+	if [ -d .svn ] ; then \
+		echo "ports svn update" ; \
+		svn update ; \
+	else \
+		echo "ports svn checkout" ; \
+		svn checkout http://svn.freebsd.org/ports/head ; \
+	fi
+	@cd /usr/src ; \
+	if [ -d .svn ] ; then \
+		echo "src svn update" ; \
+		svn update ; \
+	else \
+		echo "src svn checkout" ; \
+		svn checkout http://svn.freebsd.org/base/head ; \
+	fi

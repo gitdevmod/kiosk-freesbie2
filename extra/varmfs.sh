@@ -16,6 +16,7 @@ if [ -z "${LOGFILE:-}" ]; then
 fi
 
 TMPFILE=$(mktemp -t varmfs)
+OSRELDATE=$(sysctl -n kern.osreldate)
 
 cp ${LOCALDIR}/extra/varmfs/varmfs.rc ${BASEDIR}/etc/rc.d/varmfs
 chmod 555 ${BASEDIR}/etc/rc.d/varmfs
@@ -23,4 +24,10 @@ chmod 555 ${BASEDIR}/etc/rc.d/varmfs
 mtree -Pcp ${BASEDIR}/var > ${TMPFILE}
 mv ${TMPFILE} ${BASEDIR}/etc/mtree/var.dist
 
-chroot ${BASEDIR} pkg_info > ${BASEDIR}/pkg_info.txt 2>/dev/null
+if [ ${OSRELDATE} -ge 100017 ] ; then
+    cp /etc/resolv.conf ${BASEDIR}/etc/resolv.conf
+    chroot ${BASEDIR} env ASSUME_ALWAYS_YES=true pkg info > ${BASEDIR}/pkg_info.txt 2>/dev/null
+    rm ${BASEDIR}/etc/resolv.conf
+else
+    chroot ${BASEDIR} pkg_info > ${BASEDIR}/pkg_info.txt 2>/dev/null
+fi

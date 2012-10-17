@@ -16,10 +16,15 @@ if [ -z "${LOGFILE:-}" ]; then
 fi
 
 WORKDIR=$(mktemp -d -t freesbie)
+OSRELDATE=$(sysctl -n kern.osreldate)
 
 # Check if there are packages installed on the system
 check_pkgs() {
-    count=$(pkg_info -Qoa | wc -l)
+    if [ ${OSRELDATE} -ge 100017 ] ; then
+        count=$(pkg info -oa | wc -l)
+    else
+        count=$(pkg_info -Qoa | wc -l)
+    fi
     if [ ${count} -eq 0 ]; then
 	/usr/bin/dialog --title "FreeSBIE Packages selection" --clear \
 	--msgbox "Sorry, you don't have any packages installed.\n\nPlease install at least the packages you want\nto include in your distribution." 10 50
@@ -38,7 +43,8 @@ create_lists() {
     # Create a different file for each category. Each row in each file
     # will look like:
     # PKGNAME PKGNAME-version    
-    pkg_info -Qoa | awk \
+    if [ ${OSRELDATE} -ge 100017 ] ; then
+        pkg query %n-%v:%o | awk \
 ' BEGIN { FS=":|/" } 
 { 
     a=$1;
@@ -46,6 +52,16 @@ create_lists() {
     system("echo " $1 " >> " $2 ".src");
 }
 ';
+    else
+        pkg info -oa | awk \
+' BEGIN { FS=":|/" } 
+{ 
+    a=$1;
+    gsub("-[^-]+$", "", a); 
+    system("echo " $1 " >> " $2 ".src");
+}
+';
+    fi
 
     CATEGORIES=$(basename -s '.src' *.src)
 
@@ -61,7 +77,12 @@ create_lists() {
 
 	    # pkg_info might fail if the listed package isn't present
 	    set +e
-	    origins=$(pkg_info -QoX "^$(escape_pkg ${pkg})($|-[^-]+$)")
+            if [ ${OSRELDATE} -ge 100017 ] ; then
+		pkg=$(escape_pkg ${pkg}) 
+	        origins=$(pkg query %n-%v:%o -xX ${pkg})
+            else
+	        origins=$(pkg_info -QoX "^$(escape_pkg ${pkg})($|-[^-]+$)")
+            fi
 	    retval=$?
 	    set -e
 	    if [ ${retval} -eq 0 ]; then
@@ -197,7 +218,9 @@ collect_save() {
 	  echo "List of packages saved on ${PKGFILE}"
       else
 	  echo "No packages selected, removing ${PKGFILE}"
-	  rm ${PKGFILE}
+          if [ -f ${PKGFILE} ] ; then
+	      rm ${PKGFILE}
+          fi
       fi
       # No iterations required
       break;
