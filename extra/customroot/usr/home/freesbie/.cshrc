@@ -46,7 +46,8 @@ if ($?prompt) then
 endif
 
 if ( -r /usr/local/bin/startx ) then
-	while ( 1 ) 
+	while ( ! -r /var/run/nologin ) 
+		sleep 1
 		/usr/local/bin/startx
 	end
 endif

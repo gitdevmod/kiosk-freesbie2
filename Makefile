@@ -137,3 +137,32 @@ update:
 		echo "src svn checkout" ; \
 		svn checkout http://svn.freebsd.org/base/head ; \
 	fi
+
+log:
+	@if [ -f ${CANONICALOBJDIR}/.tmp_buildworld ] ; then \
+		tail -f ${CANONICALOBJDIR}/.tmp_buildworld ; \
+	fi
+	@if [ -f ${CANONICALOBJDIR}/.tmp_installworld ] ; then \
+		tail -f ${CANONICALOBJDIR}/.tmp_installworld ; \
+	fi
+	@if [ -f ${CANONICALOBJDIR}/.tmp_buildkernel ] ; then \
+		tail -f ${CANONICALOBJDIR}/.tmp_buildkernel ; \
+	fi
+	@if [ -f ${CANONICALOBJDIR}/.tmp_installkernel ] ; then \
+		tail -f ${CANONICALOBJDIR}/.tmp_installkernel ; \
+	fi
+	@if [ -f ${CANONICALOBJDIR}/.tmp_pkginstall ] ; then \
+		tail -f ${CANONICALOBJDIR}/.tmp_pkginstall ; \
+	fi
+	@if [ -f ${CANONICALOBJDIR}/.tmp_clonefs ] ; then \
+		tail -f ${CANONICALOBJDIR}/.tmp_clonefs ; \
+	fi
+	@if [ -f ${CANONICALOBJDIR}/.tmp_iso ] ; then \
+		tail -f ${CANONICALOBJDIR}/.tmp_iso ; \
+	fi
+	@if [ -f ${CANONICALOBJDIR}/.tmp_extra ] ; then \
+		tail -f ${CANONICALOBJDIR}/.tmp_extra ; \
+	fi
+	@if [ -f ${CANONICALOBJDIR}/.tmp_objdir ] ; then \
+		tail -f ${CANONICALOBJDIR}/.tmp_objdir ; \
+	fi

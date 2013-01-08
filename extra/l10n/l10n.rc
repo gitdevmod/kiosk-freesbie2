@@ -18,6 +18,7 @@ start_cmd="l10n_start"
 stop_cmd=":"
 
 FL=`kenv -q kiosk.lang`
+ZONEINFO=`kenv -q kiosk.zoneinfo`
 
 SUPLANG="bg cs/cz de en es fr it pl ru sk ua" 
 
@@ -225,6 +226,13 @@ scrnmap=\"${X_SCRNMAP}\"
 	# update firefox locale
 	if [ -e /usr/local/etc/firefox/mozilla.cfg ] ; then
 		echo "lockPref(\"general.useragent.locale\",\"${X_XORG_KEYMAP}\");" >> /usr/local/etc/firefox/mozilla.cfg
+	fi
+	
+	# copy zoneinfo to /etc/localtime
+	if [ -n ${ZONEINFO} ] ; then
+		if [ -f /usr/share/zoneinfo/${ZONEINFO} ] ; then
+			cp /usr/share/zoneinfo/${ZONEINFO} /etc/localtime
+		fi
 	fi
 
 	echo "."
