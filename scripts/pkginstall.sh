@@ -146,13 +146,17 @@ sort_packages() {
 
     if [ ${OSRELDATE} -ge 100017 ] ; then
        for i in $(cat $pkgfile); do
-           for j in $(pkg info -qr $i) ; do
-               if grep -q ^${j}\$ $pkgfile; then
-                   echo $i $j >> $presortfile
-               else
-                   echo $i NULL >> $presortfile
-               fi 
-           done
+           if [ $(pkg info -qr $i | wc -l) -gt 0 ] ; then
+               for j in $(pkg info -qr $i) ; do
+	            if grep -q ^${j}\$ $pkgfile; then
+		        echo $i $j >> $presortfile
+		    else
+			echo $i NULL >> $presortfile
+		    fi 
+                done
+	   else
+               echo $i NULL >> $presortfile
+          fi
        done 
     else
         for i in $(cat $pkgfile); do
